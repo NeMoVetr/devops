@@ -14,9 +14,10 @@ def test_health():
 
 def test_root_redirect():
     # проверим, что / редиректит на /docks с 307
-    r = client.get("/", allow_redirects=False)
+    r = client.get("/", follow_redirects=False)
     assert r.status_code == 307
     assert r.headers.get("location") == "/docks"
+
 
 
 def test_docks():
