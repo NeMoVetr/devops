@@ -2,7 +2,7 @@
 set -euo pipefail
 
 IMAGE_NAME="${1:-}"
-K8S_DEPLOYMENT_FILE="k8s/deployment.yml"
+K8S_DEPLOYMENT_FILE="k8s/deployment.yaml"
 CONTAINER_NAME="fastapi-app"  # Имя контейнера из Deployment
 
 if [[ -z "$IMAGE_NAME" ]]; then
