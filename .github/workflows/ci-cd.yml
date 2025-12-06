@@ -60,21 +60,16 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
   deploy-to-k8s:
-    runs-on: ubuntu-latest
+    name: Deploy to Kubernetes (Minikube)
+    runs-on: self-hosted
     needs: docker-build-push
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-
-      - name: Configure kubeconfig
+      - name: Use Minikube Docker daemon
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > ~/.kube/config
+          eval $(minikube -p minikube docker-env)
 
       - name: Apply Kubernetes manifests
         run: |
